@@ -36,8 +36,12 @@ Resumen() {
           <input
             type="submit"
             value="Confirmar pedido"
-            disabled = {comprobarPedido()}
-            className={`${comprobarPedido() ? 'bg-indigo-100' : 'bg-indigo-600' }hover:bg-indigo-800 px-5 py-2 uppercase font-semibold text-white text-center w-full cursor-pointer`}/>
+            className={`${comprobarPedido() ? 
+              'bg-indigo-100' : 
+              'bg-indigo-600 hover:bg-indigo-800' }
+               px-5 py-2 uppercase font-semibold text-white text-center w-full cursor-pointer`}
+            disabled={comprobarPedido()}
+            />
         </div>
       </form>
     </aside>

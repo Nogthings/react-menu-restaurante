@@ -4,7 +4,7 @@ import { formatearDinero } from "../helpers";
 export default function ResumenProductos({producto}) {
 
     const {handleEditarCantidadProducto, handleEliminarProductoPedido} = useMenu();
-    const { id, nombre, precio, cantidad } = producto 
+    const { id, nombre, precio, cantidad, descripcion } = producto 
 
     return (
         <div className="shadow space-y-1 p-4 bg-white">
@@ -16,6 +16,9 @@ export default function ResumenProductos({producto}) {
             </p>
             <p className="text-lg text-gray-700">
               Subtotal: {formatearDinero(precio * cantidad)}
+            </p>
+            <p className="text-base text-gray-700">
+              Descripcion: {descripcion}
             </p>
           </div>
     

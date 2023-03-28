@@ -6,6 +6,7 @@ export default function ModalProducto() {
 
   const { producto, handleClickModal, handleAgregarProductoPedido, pedido } = useMenu();
   const [cantidad, setCantidad] = useState(1);
+  const [descripcion, setDescripcion] = useState("");
   const [edicion, setEdicion] = useState(false);
 
   useEffect(() => {
@@ -16,6 +17,11 @@ export default function ModalProducto() {
         setEdicion(true)
     } 
   }, [pedido])
+
+  useEffect(() => {
+    setDescripcion(producto.descripcion || "");
+  }, [producto]);
+  
 
   return (
     <div className="md:flex gap-10">
@@ -86,6 +92,8 @@ export default function ModalProducto() {
             className="w-full border border-indigo-500 mt-2 p-2"
             name="description" 
             id="description" 
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
             cols="30" rows="5"
             placeholder="Aqui puede detallar su orden si quiere modificar algun ingrediente del platillo">
 
@@ -93,10 +101,10 @@ export default function ModalProducto() {
         </div>
         <button
         onClick={() =>{
-            handleAgregarProductoPedido({...producto, cantidad})
+            handleAgregarProductoPedido({...producto, cantidad, descripcion: descripcion})
             handleClickModal()
         }}
-        type="butto"
+        type="button"
         className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white uppercase font-semibold">
             {edicion ? 'Guardar cambios' : 'Agregar al pedido'}
         </button>
