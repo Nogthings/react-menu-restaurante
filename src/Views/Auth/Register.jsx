@@ -1,12 +1,44 @@
+import {createRef, useState} from 'react'
 import { Link } from "react-router-dom"
+import clienteAxios from '../../config/axios';
+import Alerta from '../../Components/Alerta';
 
 export default function Register() {
+
+  const nameRef = createRef();
+  const emailRef = createRef();
+  const passwordRef = createRef();
+  const passwordConfirmationRef = createRef();
+
+  const [errores, setErrores] = useState([]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    const datos = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      password_confirmation: passwordConfirmationRef.current.value
+    }
+    try {
+      const {data} = await clienteAxios.post('/api/registro', datos)
+      console.log(data.token)
+    } catch (error) {
+      setErrores(Object.values(error.response.data.errors))
+    }
+    console.log(datos);
+  }
+
   return (
     <>
         <h1 className="text-2xl font-bold">Crear Cuenta</h1>
 
         <div className="bg-white shadow-md rounded-md mt-5 px-5 py-10">
-          <form action="" noValidate>
+          <form noValidate
+                onSubmit={handleSubmit}  
+          >
+            {errores ? errores.map((error, i) => <Alerta key={i}>{error}</Alerta>) : null}
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -18,7 +50,8 @@ export default function Register() {
                 type="text"
                 className="mt-2 w-full p-3 bg-gray-50 border border-indigo-400 rounded focus:border-indigo-700"
                 name="name"
-                placeholder="Nombre completo"/>
+                placeholder="Nombre completo"
+                ref={nameRef}/>
             </div>
             <div className="mb-4">
               <label
@@ -31,7 +64,8 @@ export default function Register() {
                 type="email"
                 className="mt-2 w-full p-3 bg-gray-50 border border-indigo-400 rounded focus:border-indigo-700"
                 name="email"
-                placeholder="correo@dominio.com"/>
+                placeholder="correo@dominio.com"
+                ref={emailRef}/>
             </div>
             <div className="mb-4">
               <label
@@ -44,7 +78,8 @@ export default function Register() {
                 type="password"
                 className="mt-2 w-full p-3 bg-gray-50 border border-indigo-400 rounded focus:border-indigo-700"
                 name="password"
-                placeholder="Tu Contraseña"/>
+                placeholder="Tu Contraseña"
+                ref={passwordRef}/>
             </div>
             <div className="mb-4">
               <label
@@ -57,7 +92,8 @@ export default function Register() {
                 type="password"
                 className="mt-2 w-full p-3 bg-gray-50 border border-indigo-400 rounded focus:border-indigo-700"
                 name="password_confirmation"
-                placeholder="Confirma tu Contraseña"/>
+                placeholder="Confirma tu Contraseña"
+                ref={passwordConfirmationRef}/>
             </div>
 
             <input 

@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import clienteAxios from '../config/axios';
+import { API_ENDPOINT } from '../services/api';
 
 const MenuContext = createContext();
 
@@ -21,7 +22,7 @@ const MenuProvider = ({children}) => {
 
     const obtenerCategorias = async () => {
         try {
-            const {data} = await clienteAxios('/api/categorias')
+            const {data} = await clienteAxios(API_ENDPOINT.CATEGORIAS)
             setCategorias(data.data)
             setCategoriaActual(data.data[0])
         } catch (error) {

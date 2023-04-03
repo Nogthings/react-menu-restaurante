@@ -1,13 +1,40 @@
-import { Link } from "react-router-dom";
+import {createRef, useState} from 'react'
+import { Link } from "react-router-dom"
+import Alerta from '../../Components/Alerta';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Login() {
+
+  const emailRef = createRef();
+  const passwordRef = createRef();
+
+  const [errores, setErrores] = useState([]);
+  const { login } = useAuth({
+    middleware: 'guest',
+    url: '/'
+  })
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    const datos = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    }
+
+    login(datos, setErrores)
+  }
+
   return (
     <>
         <h1 className="text-2xl font-bold">Inicia Sesion</h1>
 
         <div className="bg-white shadow-md rounded-md mt-5 px-5 py-10">
-          <form action="" noValidate>
-
+          <form
+             noValidate
+             onSubmit={handleSubmit}
+             >
+            {errores ? errores.map((error, i) => <Alerta key={i}>{error}</Alerta>) : null}
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -19,7 +46,8 @@ export default function Login() {
                 type="email"
                 className="mt-2 w-full p-3 bg-gray-50 border border-indigo-400 rounded focus:border-indigo-700"
                 name="email"
-                placeholder="correo@dominio.com"/>
+                placeholder="correo@dominio.com"
+                ref={emailRef}/>
             </div>
             <div className="mb-4">
               <label
@@ -32,7 +60,8 @@ export default function Login() {
                 type="password"
                 className="mt-2 w-full p-3 bg-gray-50 border border-indigo-400 rounded focus:border-indigo-700"
                 name="password"
-                placeholder="Tu Contraseña"/>
+                placeholder="Tu Contraseña"
+                ref={passwordRef}/>
             </div>
 
             <input 
