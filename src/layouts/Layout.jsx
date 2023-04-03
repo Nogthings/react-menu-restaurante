@@ -5,6 +5,7 @@ import ModalProducto from "../Components/ModalProducto"
 import Sidebar from "../Components/Sidebar"
 import Resumen from "../Components/Resumen"
 import useMenu from "../hooks/useMenu"
+import { useAuth } from "../hooks/useAuth"
 
 const customStyles = {
   content: {
@@ -21,6 +22,7 @@ Modal.setAppElement('#root')
 
 export default function Layout() {
 
+  const {user, error} = useAuth({middleware: 'auth'})
   const {modal} = useMenu();
 
   return (
